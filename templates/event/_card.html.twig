@@ -1,0 +1,33 @@
+{% set mois = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'] %}
+
+{% set catName = event.category is iterable or event.category.name is defined ? event.category.name : event.category %}
+
+<li class="event-card cat-{{ catName|lower }}">
+    <div class="event-media">
+        {% if event.image %}
+            <img class="event-image" src="{{ asset('uploads/' ~ event.image) }}" alt="">
+        {% else %}
+            <img class="event-image" src="{{ asset('images/' ~ catName|lower ~ '.jpg') }}" alt="">
+        {% endif %}
+        
+        <div class="event-date">
+            <span class="day">{{ event.date ? event.date|date('d') : '' }}</span>
+            <span class="month">{{ event.date ? mois[event.date|date('n') - 1] : '' }}</span>
+        </div>
+        
+        <span class="badge">{{ event.categoryLabel ?? catName|capitalize }}</span>
+    </div>
+
+    <h3 class="event-title">
+        <a href="{{ path('app_event_show', {id: event.id}) }}">{{ event.title }}</a>
+    </h3>
+    
+    <span class="muted">{{ event.date ? event.date|date('d/m/Y · H\\hi') : '' }}</span>
+
+    {% if showUnregister is defined and showUnregister %}
+        <form method="post" action="{{ path('app_event_unregister', {id: event.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('unregister' ~ event.id) }}">
+            <button type="submit" class="btn btn-small btn-secondary">Se désinscrire</button>
+        </form>
+    {% endif %}
+</li>

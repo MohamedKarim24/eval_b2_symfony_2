@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes inscriptions{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Mes événements inscrits</h1>
+
+        {% if app.user.events is empty %}
+            <p>Vous n'êtes inscrit à aucun événement pour le moment.</p>
+        {% else %}
+            <div class="events-grid">
+                {% for event in app.user.events %}
+                    {% include 'event/_card.html.twig' %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -37,11 +37,10 @@
                                 <form method="post" action="{{ path('app_validate_event', {id: event.id}) }}">
                                     <button type="submit" class="btn btn-small btn-success">Valider</button>
                                 </form>
-                                {# Évaluation 2 – bouton « Refuser » à rendre fonctionnel :
-                                <form method="post">
-                                    <button type="submit" class="btn btn-small btn-danger">Refuser</button>
+                                <form method="post" action="{{ path('app_event_refuse', {id: event.id}) }}" style="display: inline-block;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('refuse' ~ event.id) }}">
+                                    <button type="submit" class="btn btn-danger btn-small">Refuser</button>
                                 </form>
-                                #}
                             </td>
                         </tr>
                     {% endfor %}

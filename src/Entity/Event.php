@@ -50,6 +50,9 @@ class Event
     #[ORM\Column]
     private bool $validated = false;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $author = null;
+
     /**
      * Les utilisateurs inscrits à l'événement
      *
@@ -160,6 +163,18 @@ class Event
     public function setValidated(bool $validated): static
     {
         $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }
