@@ -96,13 +96,13 @@ final class EventController extends AbstractController
     }
 
     #[Route('/mes-evenements', name: 'app_my_events')]
-#[IsGranted('ROLE_USER')]
-public function myEvents(): Response
-{
-    return $this->render('event/my_events.html.twig', [
-        'events' => $this->getUser()->getEvents(),
-    ]);
-}
+    #[IsGranted('ROLE_USER')]
+    public function myEvents(EntityManagerInterface $entityManager): Response
+    {
+        return $this->render('event/my_events.html.twig', [
+            'events' => $entityManager->getRepository(Event::class)->findBy(['author' => $this->getUser()]),
+        ]);
+    }
 
     #[Route('/evenement/{id}/desinscription', name: 'app_event_unregister', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
